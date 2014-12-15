@@ -42,7 +42,7 @@ sub instance {
   } => 'Class::Anonymous::Instance';
 };
 
-sub class (&;@) {
+sub class (&) {
   my $builder = shift;
   my $class = instance(@_);
   $class->(BUILD => $builder);
