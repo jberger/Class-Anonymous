@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Class::Private;
+use Class::Anonymous;
 
 my $class = class {
   my ($self, $name) = @_;

@@ -1,9 +1,9 @@
-package Class::Private;
+package Class::Anonymous;
 
 use strict;
 use warnings;
 
-use Class::Private::Instance;
+use Class::Anonymous::Instance;
 
 use Exporter 'import';
 our @EXPORT = qw/class extend via/;
@@ -39,7 +39,7 @@ sub instance {
     return $new if $name eq 'new'; 
     $methods{$name} = shift if @_;
     return $methods{$name};
-  } => 'Class::Private::Instance';
+  } => 'Class::Anonymous::Instance';
 };
 
 sub class (&;@) {

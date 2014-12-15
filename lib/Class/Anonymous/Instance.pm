@@ -1,4 +1,4 @@
-package Class::Private::Instance;
+package Class::Anonymous::Instance;
 
 use strict;
 use warnings;
