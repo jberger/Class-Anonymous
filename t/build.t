@@ -8,15 +8,25 @@ my $class = class {
   my ($self, $name) = @_;
   $self->(greet => sub { "Hello, my name is $name" });
   $self->(yell  => sub { uc $_[1] });
-  $self->(isa   => sub { $_[1] =~ /c/i }); # I am anything that contains a 'c'
 };
 
 my $instance = $class->new('Joel');
 is $instance->greet, 'Hello, my name is Joel';
 is $instance->can('greet')->(), 'Hello, my name is Joel';
 is $instance->yell('can you hear me?'), 'CAN YOU HEAR ME?';
-ok $instance->isa('Cow');
+ok $instance->isa($class);
 ok !$instance->isa('Horse');
+
+my $subclass = extend $class => via {
+  my ($self) = @_;
+  $self->(sing => sub { "lalala $_[1]" });
+};
+ok $subclass->isa($class);
+
+my $singer = $subclass->new;
+ok $singer->isa($class);
+ok $singer->isa($subclass);
+is $singer->sing('lululu'), 'lalala lululu';
 
 done_testing;
 

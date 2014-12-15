@@ -14,7 +14,7 @@ sub DESTROY { }
 
 sub can { $_[0]->($_[1]) }
 
-sub isa { goto $_[0]->('isa') || \&UNIVERSAL::isa }
+sub isa { goto $_[0]->('isa') }
 
 1;
 
