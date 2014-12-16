@@ -11,11 +11,14 @@ our @EXPORT = qw/class extend via/;
 use List::Util 'first';
 use Scalar::Util 'refaddr';
 
+our $CURRENT;
+
 my $new = sub {
   my $class = shift;
   my @isa = $class->isa();
   push @isa, $class;
   my $self = instance(@isa);
+  local $CURRENT = $self;
   $_->('BUILD')->($self, @_) for @isa;
   return $self;
 };
@@ -36,7 +39,7 @@ sub instance {
   return bless sub {
     return unless my $name = shift;
     return $isa if $name eq 'isa';
-    return $new if $name eq 'new'; 
+    return $new if $name eq 'new';
     $methods{$name} = shift if @_;
     return $methods{$name};
   } => 'Class::Anonymous::Instance';
