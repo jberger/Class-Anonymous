@@ -11,6 +11,18 @@ our @EXPORT = qw/class extend via/;
 use List::Util 'first';
 use Scalar::Util 'refaddr';
 
+my $bless;
+if (eval { require Package::Anon; 1 }) {
+  my $stash = Package::Anon->new;
+  $stash->add_method(AUTOLOAD => \&Class::Anonymous::Instance::AUTOLOAD);
+  $stash->add_method(DESTROY  => \&Class::Anonymous::Instance::DESTROY);
+  $stash->add_method(can => \&Class::Anonymous::Instance::can);
+  $stash->add_method(isa => \&Class::Anonymous::Instance::isa);
+  $bless = sub { $stash->bless($_[0]) };
+} else {
+  $bless = sub { bless $_[0], 'Class::Anonymous::Instance' };
+}
+
 our $CURRENT;
 
 my $new = sub {
@@ -36,13 +48,13 @@ sub instance {
     return first { $addr == refaddr $_ } reverse @isa;
   };
 
-  return bless sub {
+  return $bless->(sub {
     return unless my $name = shift;
     return $isa if $name eq 'isa';
     return $new if $name eq 'new';
     $methods{$name} = shift if @_;
     return $methods{$name};
-  } => 'Class::Anonymous::Instance';
+  });
 };
 
 sub class (&) {
