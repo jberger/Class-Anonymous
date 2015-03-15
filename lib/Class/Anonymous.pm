@@ -11,17 +11,15 @@ our @EXPORT = qw/class extend via/;
 use List::Util 'first';
 use Scalar::Util 'refaddr';
 
-my $bless;
-if (eval { require Package::Anon; 1 }) {
+my $bless = eval {
+  require Package::Anon;
   my $stash = Package::Anon->new;
   $stash->add_method(AUTOLOAD => \&Class::Anonymous::Instance::AUTOLOAD);
   $stash->add_method(DESTROY  => \&Class::Anonymous::Instance::DESTROY);
   $stash->add_method(can => \&Class::Anonymous::Instance::can);
   $stash->add_method(isa => \&Class::Anonymous::Instance::isa);
-  $bless = sub { $stash->bless($_[0]) };
-} else {
-  $bless = sub { bless $_[0], 'Class::Anonymous::Instance' };
-}
+  sub { $stash->bless($_[0]) };
+} || sub { bless $_[0], 'Class::Anonymous::Instance' };
 
 our $CURRENT;
 
