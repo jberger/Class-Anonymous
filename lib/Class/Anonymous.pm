@@ -105,7 +105,7 @@ Class::Anonymous - Truly private classes with private data for Perl5
     method greeting => sub { "My name is $name" };
   };
 
-  my $mortal = extend $lifeform via {
+  my $mortal = extend $lifeform => via {
     my ($self, $name, $age) = @_;
     around greeting => sub {
       my $orig = shift;
