@@ -178,3 +178,17 @@ If the instance implements the C<BUILD> method then it is itself a class and you
 The L</class> function simply creates an C<instance> when it creates a class.
 It then attaches a C<BUILD> function; this function creates another instance, calls all the C<BUILD> methods from all the C<isa> classes on it, then returns it.
 
+=head1 SOURCE REPOSITORY
+
+L<http://github.com/jberger/Class-Anonymous>
+
+=head1 AUTHOR
+
+Joel Berger, E<lt>joel.a.berger@gmail.comE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2015 by Joel Berger
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
