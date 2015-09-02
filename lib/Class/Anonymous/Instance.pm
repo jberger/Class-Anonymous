@@ -2,11 +2,12 @@ package Class::Anonymous::Instance;
 
 use strict;
 use warnings;
+use Carp ();
 
 sub AUTOLOAD {
   my $self = $_[0];
   my ($name) = our $AUTOLOAD =~ /::(\w+)$/;
-  my $func = $self->($name) or die "Instance of anonymous class has no method $name";
+  my $func = $self->($name) or Carp::croak "Instance of anonymous class has no method $name";
   goto $func;
 }
 
