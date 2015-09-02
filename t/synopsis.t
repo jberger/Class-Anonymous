@@ -11,7 +11,7 @@ my $lifeform = class {
   method greeting => sub { "My name is $name" };
 };
 
-my $mortal = extend $lifeform, via {
+my $mortal = extend $lifeform => via {
   my ($self, $name, $age) = @_;
   around greeting => sub {
     my $orig = shift;
