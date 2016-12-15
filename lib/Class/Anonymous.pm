@@ -117,7 +117,7 @@ Helper functions are provided in L<Class::Anonymous::Utils> which provides L<Cla
 
   my $class = class {
     my ($self) = @_;
-    $self->(mymethod = sub { ... });
+    $self->(mymethod => sub { ... });
     my $mymethod = $self->('mymethod');
   }
 
